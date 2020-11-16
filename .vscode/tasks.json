@@ -1,0 +1,52 @@
+{
+    "tasks": [
+        {
+            "type": "shell",
+            "label": "C/C++: gcc.exe build(debug)",
+            "command": "D:\\tools\\mingw-w64\\x86_64-8.1.0-posix-seh-rt_v6-rev0\\mingw64\\bin\\gcc.exe",
+            "args": [
+                "-municode",
+                "-g",
+                "${workspaceFolder}\\main.c",
+                "${workspaceFolder}\\reader.c",
+                "-o",
+                "${workspaceFolder}\\reader.exe",
+                "-lGdi32"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "type": "shell",
+            "label": "C/C++: gcc.exe build(release)",
+            "command": "D:\\tools\\mingw-w64\\x86_64-8.1.0-posix-seh-rt_v6-rev0\\mingw64\\bin\\gcc.exe",
+            "args": [
+                "-municode",
+                "-O2",
+                "-s",
+                "\"-Wl,--gc-sections\"",
+                "${workspaceFolder}\\main.c",
+                "${workspaceFolder}\\reader.c",
+                "-o",
+                "${workspaceFolder}\\reader.exe",
+                "-lGdi32"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": "build"
+        }
+    ],
+    "version": "2.0.0"
+}

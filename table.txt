@@ -1,0 +1,45 @@
+11 4
+aaaaaaaaaaaaaa
+aaaaaaaa
+aaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaa aaaaaaaa
+bbbbbb
+bb
+bbbbbbbbbbbbbb
+bbbbbbb  bbbbbbbbbb
+ccc
+c
+ccccccc
+cccccccccc
+d
+dddddd
+ddd ddddddddd ddddddd
+ddddd
+eeeeee
+eeeeeeeeeeee
+ee
+eeeeeeeeeeeee
+fffffffffff
+ffff
+fff fffff
+ffff fffffff fffff ffffff
+gg
+gggg
+g
+g
+hhhhhh
+hhhhhh   hhhhhhhhh
+hhhhh hhhh  hhh
+h
+iiii
+iiiiii iiiiiiiii
+ii
+iiiiiiiii
+jjj
+jjjjjjjjjjjj
+jjj
+jjjjjjjjjjjjjjjjj
+kkkk
+kkkkkkkkkk
+kkkk
+kkkkkkkkkkkkk
