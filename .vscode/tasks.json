@@ -1,7 +1,7 @@
 {
     "tasks": [
         {
-            "type": "shell",
+            "type": "process",
             "label": "C/C++: gcc.exe build(debug)",
             "command": "D:\\tools\\mingw-w64\\x86_64-8.1.0-posix-seh-rt_v6-rev0\\mingw64\\bin\\gcc.exe",
             "args": [
@@ -10,7 +10,7 @@
                 "${workspaceFolder}\\main.c",
                 "${workspaceFolder}\\reader.c",
                 "-o",
-                "${workspaceFolder}\\reader.exe",
+                "${workspaceFolder}\\table.exe",
                 "-lGdi32"
             ],
             "options": {
@@ -25,18 +25,18 @@
             }
         },
         {
-            "type": "shell",
+            "type": "process",
             "label": "C/C++: gcc.exe build(release)",
             "command": "D:\\tools\\mingw-w64\\x86_64-8.1.0-posix-seh-rt_v6-rev0\\mingw64\\bin\\gcc.exe",
             "args": [
-                "-municode",
-                "-O2",
-                "-s",
-                "\"-Wl,--gc-sections\"",
+				"-O2",
+				"-municode",
+				"-s",
+				"-Wl,--gc-sections",
                 "${workspaceFolder}\\main.c",
                 "${workspaceFolder}\\reader.c",
                 "-o",
-                "${workspaceFolder}\\reader.exe",
+                "${workspaceFolder}\\table.exe",
                 "-lGdi32"
             ],
             "options": {

@@ -3,12 +3,16 @@
 TABLE table;
 RECT clientRect;
 HFONT hFont;
-const wchar_t *ClassName = L"MyClass";
+const LPWSTR ClassName = L"MyClass";
 int yOrigin;
 int contentHeight;
+const LPWSTR defaultPath = L"table.txt";
+LPWSTR fileName;
 
 int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR pCmdLine, int nCmdShow)
 {
+    fileName = wcslen(pCmdLine) > 0 ? pCmdLine : defaultPath;
+
     WNDCLASSEX wc = { };
 
     wc.cbSize = sizeof (WNDCLASSEX);
@@ -33,7 +37,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR pCmdLin
 
     if (hWnd == NULL)
     {
-            MessageBox((HWND)NULL, L"Can't create window", (LPWSTR)NULL, MB_ICONWARNING);
+            MessageBox(NULL, L"Can't create window", NULL, MB_ICONWARNING);
         return 42;
     }
     
@@ -51,7 +55,6 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR pCmdLin
 
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-    //SCROLLINFO si;
     int wheelRotation;
 
     switch (uMsg)
@@ -61,12 +64,12 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
         return 0;
         
     case WM_CREATE :
-        if (ReadFromFile("table.txt", &table))
+        if (ReadFromFile(fileName, &table))
         {
-            MessageBox((HWND)NULL, L"Invalid file", (LPWSTR)NULL, MB_ICONWARNING);
+            MessageBox(NULL, L"Invalid file", NULL, MB_ICONWARNING);
+            PostQuitMessage(42);
         }
         GetClientRect(hwnd, &clientRect);
-        //SetFont(hwnd);
         hFont = CreateFont(24,8,0,0,FW_NORMAL,FALSE,FALSE,FALSE,DEFAULT_CHARSET,OUT_OUTLINE_PRECIS,
                 CLIP_DEFAULT_PRECIS,CLEARTYPE_QUALITY, VARIABLE_PITCH,L"Times New Roman");
         return 0;
@@ -83,19 +86,15 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
     case WM_PAINT :
     {
         PAINTSTRUCT ps;
-        HDC dc = BeginPaint(hwnd, &ps);
-        
+        HDC dc = BeginPaint(hwnd, &ps);        
         SelectObject(dc,hFont);
 
         FillRect(dc, &clientRect, (HBRUSH)0);
         
         SetWindowOrgEx(dc, 0, yOrigin, NULL);
-        //OffsetRect(&ps.rcPaint, 0, yOrigin);
-
         DrawTable(dc);
 
-        EndPaint(hwnd, &ps);
-        
+        EndPaint(hwnd, &ps);        
         return 0;
     }
     }
@@ -128,12 +127,29 @@ void DrawTable(HDC dc)
             drawRect.left = (int)(clientRect.left + columnWidth * j);
             drawRect.right = (int)(clientRect.left + columnWidth * (j + 1));
 
-            int height = DrawTextEx(dc, table.cells[i][j], -1, &drawRect, DT_WORDBREAK | DT_WORD_ELLIPSIS | DT_CENTER | DT_NOPREFIX, NULL);
+            int height = DrawTextEx(dc, table.cells[i][j], -1, &drawRect, 
+                DT_WORDBREAK | DT_WORD_ELLIPSIS | DT_CENTER | DT_NOPREFIX, NULL);
             rowHeight = height > rowHeight ? height : rowHeight;
         }
         rowY += rowHeight;
+
+        // Draw horizontal line
+        if (i < table.rows - 1)
+        {
+            MoveToEx(dc, 0, rowY - LINE_OFFSET, NULL);
+            LineTo(dc, clientRect.right, rowY - LINE_OFFSET);
+        }
     }
     contentHeight = rowY;
+
+    // Draw vertical lines
+    int lineHeight = clientRect.bottom > contentHeight ? clientRect.bottom : contentHeight;
+
+    for (int i = 1; i < table.rows; i++)
+    {
+        MoveToEx(dc, columnWidth * i, 0, NULL);
+        LineTo(dc, columnWidth * i, lineHeight);        
+    }
 }
 
 void Scroll(HWND hwnd, int amount)

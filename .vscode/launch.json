@@ -8,7 +8,7 @@
             "name": "gcc.exe - Сборка и отладка активного файла",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}\\reader.exe",
+            "program": "${workspaceFolder}\\table.exe",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",

@@ -1,16 +1,13 @@
-#include <stdio.h>
-#include <stdlib.h>
 #include "reader.h"
 
-int ReadFromFile(char *fName, TABLE *table)
+int ReadFromFile(wchar_t *fName, TABLE *table)
 {
     int str, col;
 
-    FILE *file = fopen(fName, "r");
+    FILE *file = _wfopen(fName, L"r");
 
     if (fwscanf(file, L"%d%d\n", &str, &col) != 2)
     {
-        printf("Missing table info\n");
         fclose(file);
         return 42;
     }
@@ -28,13 +25,9 @@ int ReadFromFile(char *fName, TABLE *table)
 
             if (fgetws(table->cells[i][j], 256, file) == NULL)
             {
-                wprintf(L"Missing cell\n");
+                fclose(file);
                 return 42;
-            }
-            else
-            {
-                wprintf(L"%d:%d %s\n", i, j, table->cells[i][j]);
-            }            
+            }         
         }
     }
     fclose(file);
